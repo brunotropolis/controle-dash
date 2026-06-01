@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checklist de Entregas — Bruno</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #181b22;
+    --card-hover: #1f232c;
+    --border: #2a2f3a;
+    --text: #e8ecf3;
+    --muted: #8892a6;
+    --accent: #ff7a00;
+    --done: #22c55e;
+    --pending: #eab308;
+    --todo: #64748b;
+    --blocked: #ef4444;
+    --p1: #ef4444;
+    --p2: #f97316;
+    --p3: #eab308;
+    --p4: #64748b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    padding: 32px 24px 64px;
+  }
+  .container { max-width: 1280px; margin: 0 auto; }
+  header { margin-bottom: 32px; }
+  h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .subtitle { color: var(--muted); font-size: 14px; }
+  .legend {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    margin: 16px 0 24px; padding: 12px 16px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    font-size: 12px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .filter-btn {
+    background: var(--card); border: 1px solid var(--border); color: var(--text);
+    padding: 6px 14px; border-radius: 999px; cursor: pointer; font-size: 13px;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { background: var(--card-hover); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #000; font-weight: 600; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; transition: all 0.15s;
+  }
+  .card:hover { background: var(--card-hover); border-color: #3a4050; }
+  .card-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 4px; gap: 12px;
+  }
+  .card-title { font-size: 17px; font-weight: 700; }
+  .card-subtitle { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
+  .priority {
+    font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 4px;
+    text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+    color: #000;
+  }
+  .p-p1 { background: var(--p1); color: white; }
+  .p-p2 { background: var(--p2); }
+  .p-p3 { background: var(--p3); }
+  .p-p4 { background: var(--p4); color: white; }
+  .progress {
+    height: 6px; background: #0a0c10; border-radius: 3px; overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--done), #16a34a); transition: width 0.3s; }
+  .stats {
+    display: flex; gap: 12px; font-size: 11px; color: var(--muted);
+    margin-bottom: 12px;
+  }
+  ul.items { list-style: none; }
+  ul.items li {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 6px 0; font-size: 13px; border-bottom: 1px solid #232733;
+  }
+  ul.items li:last-child { border-bottom: none; }
+  .status {
+    flex-shrink: 0; margin-top: 3px; width: 14px; height: 14px;
+    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: bold;
+  }
+  .s-done { background: var(--done); color: #000; }
+  .s-pending { background: var(--pending); color: #000; }
+  .s-todo { background: transparent; border: 1.5px solid var(--todo); }
+  .s-blocked { background: var(--blocked); color: white; }
+  .item-text.done { color: var(--muted); text-decoration: line-through; }
+  .item-text.pending { color: var(--text); }
+  .item-text.blocked { color: var(--blocked); }
+  .summary {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 20px; margin-bottom: 24px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px;
+  }
+  .summary-item { text-align: center; }
+  .summary-num { font-size: 28px; font-weight: 700; color: var(--accent); }
+  .summary-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>📋 Checklist de Entregas</h1>
+    <div class="subtitle">Mapa dos projetos · atualizado 2026-06-01</div>
+  </header>
+
+  <div class="summary" id="summary"></div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="dot" style="background:var(--done)"></span> Feito</div>
+    <div class="legend-item"><span class="dot" style="background:var(--pending)"></span> Em andamento</div>
+    <div class="legend-item"><span class="dot" style="background:transparent;border:1.5px solid var(--todo)"></span> A fazer</div>
+    <div class="legend-item"><span class="dot" style="background:var(--blocked)"></span> Bloqueado / pendência crítica</div>
+    <div style="border-left:1px solid var(--border);padding-left:16px;margin-left:8px;display:flex;gap:8px;">
+      <span class="priority p-p1">P1</span>
+      <span class="priority p-p2">P2</span>
+      <span class="priority p-p3">P3</span>
+      <span class="priority p-p4">P4</span>
+    </div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="p1">🔥 Prioridade P1</button>
+    <button class="filter-btn" data-filter="p2">P2</button>
+    <button class="filter-btn" data-filter="pending">Com pendências</button>
+    <button class="filter-btn" data-filter="active">Ativos</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+const projects = [
+  {
+    id: "ofertas-beta",
+    title: "Ofertas Beta — Admin Panel v2",
+    subtitle: "Next.js + Supabase + Evolution · substitui formulário + n8n + Sheets",
+    priority: "p1",
+    active: true,
+    items: [
+      { s: "done", t: "Sprint 1 — Schema SQL, Auth SSR, deploy EasyPanel" },
+      { s: "done", t: "Sprint 2 — CRUD campanhas + Evolution (QR, sync grupos)" },
+      { s: "done", t: "Sprint 3 — Ofertas manuais (parse URL, IA Claude Haiku, preview)" },
+      { s: "pending", t: "Ajustes em produção (Bruno vai listar)" },
+      { s: "todo", t: "Sprint 4 — Fila + Dispatcher (drag, lock, timer, n8n cron)" },
+      { s: "todo", t: "Sprint 5 — Fontes automáticas (Telegram, WhatsApp, APIs)" },
+      { s: "todo", t: "Sprint 6 — Calendário + agendamento recorrente" },
+      { s: "todo", t: "Sprint 7 — Dashboard + gestão de usuários" }
+    ]
+  },
+  {
+    id: "buscador-geek",
+    title: "Buscador Geek v2",
+    subtitle: "Sistema de ofertas WhatsApp · n8n + WHAPI + Evolution",
+    priority: "p2",
+    active: true,
+    items: [
+      { s: "done", t: "Dispatcher unificado (73 nós, rota AGENTE + IMAGEM)" },
+      { s: "done", t: "Auto Coletores: Shopee, Amazon, ML" },
+      { s: "done", t: "Migração grupos WHAPI → Evolution (round-robin bg-grupos-1/2)" },
+      { s: "done", t: "Shopee manual com convert link + Sub IDs" },
+      { s: "blocked", t: "Healthcheck cron Evolution (instâncias somem — bugs #61/#70 reincidentes)" }
+    ]
+  },
+  {
+    id: "austin-powers",
+    title: "Meta Ads — Austin Powers",
+    subtitle: "Agente conversacional + Executor · DREAM BABY-DB",
+    priority: "p2",
+    active: true,
+    items: [
+      { s: "done", t: "Agent + widget no dashboard (Sonnet 4.5, personalidade)" },
+      { s: "done", t: "Executor: pausar, ativar, ajustar verba, duplicar criativo" },
+      { s: "done", t: "Onda 1 — Guardião (regras + Watchdog WhatsApp) — desativado" },
+      { s: "done", t: "Onda 2 — Estrategista (LAL, duplicar adset, headlines)" },
+      { s: "todo", t: "Onda 3 — Operador (criar campanha, upload mídia, WhatsApp bidirecional)" },
+      { s: "todo", t: "Lookup automático de campaign_id por nome (fuzzy match)" },
+      { s: "todo", t: "Botão 'Desfazer' próximo de ações executadas" }
+    ]
+  },
+  {
+    id: "funil-meteorico",
+    title: "Funil Meteórico (Tetê + Soninho)",
+    subtitle: "Lançamento via grupos WhatsApp · dashboard unificado",
+    priority: "p2",
+    active: true,
+    items: [
+      { s: "done", t: "Dispatchers Tetê + Soninho com retry/backoff" },
+      { s: "done", t: "Dashboard unificado com seletor de clube" },
+      { s: "done", t: "Webhooks Greenn v2 (onReceived, product map)" },
+      { s: "done", t: "Monitor de membros + Coletor de interações (ambos clubes)" },
+      { s: "blocked", t: "Promover tete-admin/remocao como admin do Soninho #8" },
+      { s: "todo", t: "Rotação Semanal Soninho (Tetê já tem)" },
+      { s: "todo", t: "'Batidão' — revisão geral de problemas acumulados" }
+    ]
+  },
+  {
+    id: "atendimento-alunas",
+    title: "Atendimento Alunas — CRM WhatsApp",
+    subtitle: "crm.manualdorecemnascido.com.br · Next + Supabase + Evolution v2",
+    priority: "p2",
+    active: true,
+    items: [
+      { s: "done", t: "Fase 1+2+3 entregues — em produção desde 2026-05-18" },
+      { s: "done", t: "Inbox tipo WhatsApp (realtime, badges, filtro, dedup LID)" },
+      { s: "done", t: "Envio texto/áudio/imagem/vídeo/doc + transcrição (Groq Whisper)" },
+      { s: "done", t: "Mensagens salvas com atalhos / + mídia (Supabase Storage)" },
+      { s: "done", t: "Sequência de acompanhamento por curso + palavra-chave INICIAR" },
+      { s: "done", t: "Boas-vindas auto + detector de reembolso + encerramento" },
+      { s: "todo", t: "Fase 4 — Webhooks Greenn/Hotmart nos painéis" },
+      { s: "todo", t: "Multi-atendente + atribuição" },
+      { s: "todo", t: "Notificações push/sound" },
+      { s: "todo", t: "Histórico paginado (hoje limit 200 msgs/conversa)" }
+    ]
+  },
+  {
+    id: "financeiro",
+    title: "Financeiro — Painel de Controle",
+    subtitle: "financeiro.brunotropolis.com.br · Next + Supabase · PF + 3 PJs",
+    priority: "p1",
+    active: true,
+    items: [
+      { s: "done", t: "Sprint 0 — Setup (schema, deploy, DNS, auth, audit log)" },
+      { s: "done", t: "Sprint 1 — Cadastros (entidades, contas, cartões, categorias, fornecedores)" },
+      { s: "done", t: "Sprint 2 — Operação (transações, receitas, recorrências, faturas, dashboard real)" },
+      { s: "done", t: "Sprint 3 — Projeção + Importação (PDF → Claude Haiku, webhook Greenn)" },
+      { s: "done", t: "Sprint 3.5 — Orçamento + card Meta Ads no dashboard" },
+      { s: "done", t: "Sprint 3.6 — Refator (filtros, recorrências fixo/variável/bucket, origens, projetos)" },
+      { s: "done", t: "Sprint 3.7 — Despesas tabs + histórico + análise de média" },
+      { s: "pending", t: "Bruno cadastrar ~15 recorrências de abr/2026" },
+      { s: "pending", t: "Importar extratos abr/mai 2026 — validar end-to-end" },
+      { s: "todo", t: "Aba Impostos dedicada (taxas removidas do form receita)" },
+      { s: "todo", t: "Materialização retroativa (últimos 90 dias pra match com extratos)" },
+      { s: "todo", t: "Sprint 4 — Bot WhatsApp (foto comprovante → Claude Vision → JSON)" },
+      { s: "todo", t: "Sprint 5 — Afiliados (Amazon/Shopee/ML sync mensal)" },
+      { s: "todo", t: "Sprint 6 — Sync Meta automático + gestão usuários" },
+      { s: "todo", t: "Sprint 7 — Materialização retroativa" }
+    ]
+  }
+];
+
+function statusBadge(s) {
+  const map = { done: ["s-done","✓"], pending: ["s-pending","•"], todo: ["s-todo",""], blocked: ["s-blocked","!"] };
+  const [cls, txt] = map[s] || map.todo;
+  return `<span class="status ${cls}">${txt}</span>`;
+}
+
+function render(filter = "all") {
+  const grid = document.getElementById("grid");
+  const filtered = projects.filter(p => {
+    if (filter === "all") return true;
+    if (filter === "p1") return p.priority === "p1";
+    if (filter === "p2") return p.priority === "p2";
+    if (filter === "active") return p.active;
+    if (filter === "pending") return p.items.some(i => i.s === "pending" || i.s === "blocked");
+    return true;
+  });
+
+  filtered.sort((a,b) => a.priority.localeCompare(b.priority));
+
+  grid.innerHTML = filtered.map(p => {
+    const done = p.items.filter(i => i.s === "done").length;
+    const total = p.items.length;
+    const pct = Math.round((done/total)*100);
+    const pending = p.items.filter(i => i.s === "pending").length;
+    const blocked = p.items.filter(i => i.s === "blocked").length;
+    const todo = p.items.filter(i => i.s === "todo").length;
+
+    return `
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">${p.title}</div>
+          <span class="priority p-${p.priority}">${p.priority.toUpperCase()}</span>
+        </div>
+        <div class="card-subtitle">${p.subtitle}</div>
+        <div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div>
+        <div class="stats">
+          <span>${done}/${total} feitos (${pct}%)</span>
+          ${pending ? `<span style="color:var(--pending)">• ${pending} em andamento</span>` : ""}
+          ${blocked ? `<span style="color:var(--blocked)">• ${blocked} bloqueado</span>` : ""}
+          ${todo ? `<span>• ${todo} a fazer</span>` : ""}
+        </div>
+        <ul class="items">
+          ${p.items.map(i => `
+            <li>
+              ${statusBadge(i.s)}
+              <span class="item-text ${i.s}">${i.t}</span>
+            </li>
+          `).join("")}
+        </ul>
+      </div>
+    `;
+  }).join("");
+
+  // Summary
+  const allItems = projects.flatMap(p => p.items);
+  const sDone = allItems.filter(i => i.s === "done").length;
+  const sPending = allItems.filter(i => i.s === "pending").length;
+  const sBlocked = allItems.filter(i => i.s === "blocked").length;
+  const sTodo = allItems.filter(i => i.s === "todo").length;
+  const p1Count = projects.filter(p => p.priority === "p1").length;
+
+  document.getElementById("summary").innerHTML = `
+    <div class="summary-item"><div class="summary-num">${projects.length}</div><div class="summary-label">Projetos</div></div>
+    <div class="summary-item"><div class="summary-num" style="color:var(--done)">${sDone}</div><div class="summary-label">Feitos</div></div>
+    <div class="summary-item"><div class="summary-num" style="color:var(--pending)">${sPending}</div><div class="summary-label">Em andamento</div></div>
+    <div class="summary-item"><div class="summary-num" style="color:var(--blocked)">${sBlocked}</div><div class="summary-label">Bloqueados</div></div>
+    <div class="summary-item"><div class="summary-num">${sTodo}</div><div class="summary-label">A fazer</div></div>
+    <div class="summary-item"><div class="summary-num" style="color:var(--p1)">${p1Count}</div><div class="summary-label">Projetos P1</div></div>
+  `;
+}
+
+document.querySelectorAll(".filter-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    render(btn.dataset.filter);
+  });
+});
+
+render();
+</script>
+</body>
+</html>
