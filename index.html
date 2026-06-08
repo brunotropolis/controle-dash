@@ -230,11 +230,24 @@ const projects = [
     ]
   },
   {
-    id: "financeiro",
-    title: "Financeiro — Painel de Controle",
-    subtitle: "financeiro.brunotropolis.com.br · Next + Supabase · PF + 3 PJs",
+    id: "financeiro-v2",
+    title: "Caixa (Financeiro v2) — Painel enxuto",
+    subtitle: "caixa.brunotropolis.com.br · Next + Supabase (mesmo banco do v1) · 3 contas",
     priority: "p1",
     active: true,
+    items: [
+      { s: "done", t: "Sprint 1 — Scaffolding + dashboard read-only + tema dark+lime + deploy + SSL" },
+      { s: "todo", t: "Sprint 2 — Tela /lancar (form universal 5 tipos) + /recorrentes + /lancamentos" },
+      { s: "todo", t: "Sprint 3 — Projeção 6 meses + tela /receitas com paste Greenn" },
+      { s: "todo", t: "Sprint 4 — Polish + derrubar financeiro.brunotropolis.com.br (v1)" }
+    ]
+  },
+  {
+    id: "financeiro",
+    title: "Financeiro v1 — Painel antigo (deprecando)",
+    subtitle: "financeiro.brunotropolis.com.br · mantido no ar até v2 estar validado",
+    priority: "p3",
+    active: false,
     items: [
       { s: "done", t: "Sprint 0 — Setup (schema, deploy, DNS, auth, audit log)" },
       { s: "done", t: "Sprint 1 — Cadastros (entidades, contas, cartões, categorias, fornecedores)" },
