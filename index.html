@@ -148,6 +148,21 @@
 <script>
 const projects = [
   {
+    id: "utm-builder",
+    title: "UTM Builder",
+    subtitle: "utm.brunotropolis.com.br · gerador de URLs rastreadas + links curtos em manualdorecemnascido.com.br",
+    priority: "p2",
+    active: true,
+    items: [
+      { s: "done", t: "App no ar (GitHub Pages + Cloudflare CNAME utm.brunotropolis.com.br)" },
+      { s: "done", t: "Cloudflare Worker utm-redirector em manualdorecemnascido.com.br/*" },
+      { s: "done", t: "KV namespace UTM_SLUGS (registro + redirect 302 + delete)" },
+      { s: "done", t: "Campos UTM + autocomplete + badge de classificação (Orgânico/Recuperação/Automação)" },
+      { s: "done", t: "Histórico de URLs geradas (localStorage) + criação de links curtos" }
+    ],
+    links: [{ label: "Abrir app", url: "https://utm.brunotropolis.com.br" }]
+  },
+  {
     id: "denuncias-ig",
     title: "Denúncias Instagram — cópia de conteúdo da Day",
     subtitle: "denuncias.brunotropolis.com.br · cadastro de links + status · denúncia via Chrome MCP (form direitos autorais IG)",
