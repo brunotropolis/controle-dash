@@ -309,21 +309,22 @@ const projects = [
   },
   {
     id: "atendimento-alunas",
-    title: "Atendimento Alunas — CRM WhatsApp",
-    subtitle: "crm.manualdorecemnascido.com.br · Next + Supabase + Evolution v2",
-    priority: "p2",
+    title: "CRM Alunos — Onboarding oficial + Atendimento",
+    subtitle: "crm.manualdorecemnascido.com.br · Next + Supabase + Cloud API (oficial) + Evolution",
+    priority: "p1",
     active: true,
     items: [
-      { s: "done", t: "Fase 1+2+3 entregues — em produção desde 2026-05-18" },
-      { s: "done", t: "Inbox tipo WhatsApp (realtime, badges, filtro, dedup LID)" },
-      { s: "done", t: "Envio texto/áudio/imagem/vídeo/doc + transcrição (Groq Whisper)" },
-      { s: "done", t: "Mensagens salvas com atalhos / + mídia (Supabase Storage)" },
-      { s: "done", t: "Sequência de acompanhamento por curso + palavra-chave INICIAR" },
-      { s: "done", t: "Boas-vindas auto + detector de reembolso + encerramento" },
-      { s: "todo", t: "Fase 4 — Webhooks Greenn/Hotmart nos painéis" },
-      { s: "todo", t: "Multi-atendente + atribuição" },
-      { s: "todo", t: "Notificações push/sound" },
-      { s: "todo", t: "Histórico paginado (hoje limit 200 msgs/conversa)" }
+      { s: "done", t: "Base: inbox WhatsApp realtime, mídia+transcrição, msgs salvas, acompanhamento" },
+      { s: "done", t: "Mecânica do Unnichat exportada (32 automações, 11 ativas portadas)" },
+      { s: "done", t: "Camada Cloud API oficial: lib cloudapi + roteador por canal + webhook inbound + import templates" },
+      { s: "done", t: "Modelo produto-cêntrico (1 fluxo/produto) + 50 produtos Greenn mapeados" },
+      { s: "done", t: "Motor de sequência agendado + reply-gating + auto-arm na compra (cron)" },
+      { s: "done", t: "3 migrations aplicadas + seed 11 produtos/48 passos no Supabase" },
+      { s: "blocked", t: "Cadastrar número oficial de base (Bruno, amanhã cedo)" },
+      { s: "todo", t: "Deploy branch feat/cloud-api-oficial + envs + webhook Meta + cron n8n" },
+      { s: "todo", t: "Fan-out Greenn→CRM (script pronto, falta WEBHOOK_GREENN_SECRET do EasyPanel)" },
+      { s: "todo", t: "Interface pro Bruno editar os fluxos por produto" },
+      { s: "todo", t: "Ajustar textos/tempos dos fluxos (revisão do Bruno)" }
     ]
   },
   {
