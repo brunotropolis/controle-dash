@@ -148,6 +148,23 @@
 <script>
 const projects = [
   {
+    id: "disparo-babytalks",
+    title: "Disparo WhatsApp — Baby Talks Santo Anjo",
+    subtitle: "conteudo.babytalks.com.br/disparo.html · convite p/ 1.217 gestantes (base feira) via Evolution · 2 nºs aquecidos · validador ao vivo",
+    priority: "p1",
+    active: true,
+    items: [
+      { s: "done", t: "Base limpa: 1.217 leads únicos no Supabase (bt_disparo), split 609/608 entre os 2 números" },
+      { s: "done", t: "Painel + validador ao vivo (recebidas / SIM / SAIR) na identidade Baby Talks" },
+      { s: "done", t: "Dispatcher n8n: gate + janela 8h30-19h + rampa por dia + spacing 60-120s (travado em OFF)" },
+      { s: "done", t: "Handler de respostas: SIM manda convite+link, SAIR despede e remove; Evolution webhook ligado" },
+      { s: "done", t: "Convite oficial do evento anexado na 1ª mensagem (imagem + legenda)" },
+      { s: "todo", t: "Smoke test no número do Bruno (teste.py) + validar formato de envio de mídia" },
+      { s: "todo", t: "Dar o play (ligar.py) — aguardando OK do Bruno" }
+    ],
+    links: [{ label: "Abrir painel", url: "https://conteudo.babytalks.com.br/disparo.html" }]
+  },
+  {
     id: "bemvindo-mrn",
     title: "Boas-Vindas / Cursos Rápidos (ManyChat)",
     subtitle: "bemvindo.manualdorecemnascido.com.br · link-da-bio pra novos seguidores · CURSOS RÁPIDOS + consultas + Manual",
