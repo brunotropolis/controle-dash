@@ -347,7 +347,7 @@ const projects = [
       { s: "done", t: "3 migrations aplicadas + seed 11 produtos/48 passos no Supabase" },
       { s: "done", t: "Número oficial + token permanente + 11 templates APPROVED — teste ao vivo OK (29/jul)" },
       { s: "done", t: "Deploy em produção + envs no EasyPanel (29/jul)" },
-      { s: "done", t: "Webhook inbound da Meta ligado no app API MANUAL DB (MRN_API estava ocupado pelo SellFlux)" },
+      { s: "done", t: "Webhook inbound da Meta ligado no app API MANUAL DB (o callback do MRN_API ia pra ferramenta abandonada)" },
       { s: "done", t: "Cron n8n 1min (CRM | Cron Sequencias) + fix do middleware que bloqueava /api/cron" },
       { s: "done", t: "Painel /disparos: status por matrícula, progresso, ações, banner da trava de teste" },
       { s: "done", t: "Editor /fluxos por produto: passos, delay, template, botão CTA, prévia" },
@@ -362,11 +362,39 @@ const projects = [
       { s: "done", t: "Modelo de grafo: bifurcação, grupo de mensagens, variáveis, prazo do reply-gating" },
       { s: "done", t: "Importação fiel: 170 blocos (95 msgs, 52 esperas, 17 tags, 6 condições)" },
       { s: "done", t: "Editor visual em canvas (React Flow) + visão em lista" },
+      { s: "done", t: "Varredura dos 8 fluxos: 10 blocos de botão religados ao destino certo (7 fluxos)" },
+      { s: "done", t: "Condição de horário que encerrava o fluxo em silêncio — corrigida nos 2 combos" },
+      { s: "done", t: "Motor: um clique resolve UM ponto de espera (menu de 3 botões estava morto)" },
+      { s: "done", t: "Ebook do combo: só quem clica recebe, quem ignora segue pro acesso" },
+      { s: "done", t: "Caixa de texto do chat não perde mais o foco ao enviar + fila de envio" },
+      { s: "done", t: "Aviso do suporte sai uma vez por pessoa (era um por mensagem)" },
+      { s: "done", t: "Fluxo Consulta de Amamentação duplicado do Consulta com Dayane (produto 122439)" },
       { s: "pending", t: "Validar E2E: responder no WhatsApp e ver cair na inbox certa" },
       { s: "pending", t: "Revisar os 13 fluxos importados e ligar (todos desligados)" },
+      { s: "pending", t: "Template combo_dream_baby_pocket_acompanhamento entrou em revisão na Meta" },
       { s: "blocked", t: "Fan-out Greenn→CRM — só ligar quando encerrar os testes (trava de segurança)" },
       { s: "todo", t: "Ramo alternativo (quem não clica no template) — extraído, falta importar" },
       { s: "todo", t: "Rotacionar WHAPI_WEBHOOK_SECRET (circulou na página do Unnichat)" }
+    ]
+  },
+  {
+    id: "carol-comercial",
+    title: "CAROL COMERCIAL — agente de vendas no CRM",
+    subtitle: "Tirar a Carol do GPT Maker e trazer pro atendimento-alunas · dev começa 14/ago",
+    priority: "p1",
+    active: true,
+    items: [
+      { s: "done", t: "GPT Maker mapeado: prompt, 19 treinamentos, 6 PDFs e histórico (195 conversas)" },
+      { s: "done", t: "Diagnóstico: 4 contradições no treinamento, incl. script de 4 caixas × papo natural" },
+      { s: "done", t: "Achado: em 195 conversas, ZERO escalonadas pra humano (não existe caminho)" },
+      { s: "done", t: "Decidido: número do Manual (parado), tudo automático, GPT Maker no ar até validar" },
+      { s: "todo", t: "Lista de teste: Carol só responde o número do Bruno; resto cai no suporte" },
+      { s: "todo", t: "Papel 'comercial' pro número sair da rotação do disparo de onboarding" },
+      { s: "todo", t: "Catálogo dos 8 produtos na tabela produtos (preço e link nunca do modelo)" },
+      { s: "todo", t: "Prompt consolidado sem as contradições + Sonnet no lugar do GPT-4.1 Mini" },
+      { s: "todo", t: "Ferramentas: buscar_produto, gerar_link, chamar_humano, marcar_interesse" },
+      { s: "todo", t: "Atribuição: UTM por conversa casando com a venda no webhook da Greenn" },
+      { s: "todo", t: "Decidir follow-up de quem recebeu o link e não comprou" }
     ]
   },
   {
