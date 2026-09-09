@@ -163,10 +163,26 @@ const projects = [
       { s: "todo", t: "Fase 3 — Multi-plataforma (TikTok/Kwai/Pinterest/Facebook/Shorts) + decidir agregador (Ayrshare/Blotato)" },
       { s: "todo", t: "Fase 4 — Buscador Geek completo (imaginado×feito + redes + blog + SEO busca/IAs)" },
       { s: "todo", t: "Fase 5 — Brunotropolis (replica motor Manual+Ofertas)" },
-      { s: "todo", t: "Fase 6 — Preço da Fralda (app de busca de fralda p/ Ofertas Maternas)" },
+      { s: "done", t: "Fase 6 — Preço da Fralda ✅ NO AR (fraldas.manualdorecemnascido.com.br) — ver card próprio 'Fralda Barata'" },
       { s: "todo", t: "Transversal — Editor de vídeo (evolui editor-reels-ia + pluga no agendador)" }
     ],
     links: [{ label: "Abrir HUB de Conteúdo", url: "https://conteudo.manualdorecemnascido.com.br/" }]
+  },
+  {
+    id: "fralda-barata",
+    title: "Fralda Barata — comparador de fralda",
+    subtitle: "Preço por fralda de Amazon+ML+Shopee (Ofertas Maternas) · afiliado conta materna · doc: fraldas-comparador/CLAUDE.md",
+    priority: "p2",
+    active: true,
+    items: [
+      { s: "done", t: "Supabase schema 'fraldas' (projeto qkherjtsvakmpkxebuwy) + RLS + grant service_role" },
+      { s: "done", t: "Coletor n8n 'FRALDAS | Coletor 3h' (esAhrI4BUY1kqCJe) — Amazon+Shopee hands-off, normalizador R$/unidade, nota 4+ Shopee, desconto" },
+      { s: "done", t: "Mercado Livre via scraper local ml_scraper.js (Chrome real + cookie materno) + task FraldaBarata-ML 3h — ML bloqueia bot" },
+      { s: "done", t: "Site NO AR fraldas.manualdorecemnascido.com.br: 3 categorias (fralda/lenço/fórmula), filtros, calculadora, desconto/estrelas/loja oficial, páginas termos/privacidade, empresa MRN SERVIÇOS DIGITAIS" },
+      { s: "pending", t: "Bruno rodar 1x o warm-up de captcha do ML: node ml_scraper.js warmup (depois roda sozinho)" },
+      { s: "todo", t: "Polish: extrair nota do ML (hoje passa como curado), staleness (remover produto fora de estoque), selo 'menor preço 30d'" }
+    ],
+    links: [{ label: "Abrir Fralda Barata", url: "https://fraldas.manualdorecemnascido.com.br/" }]
   },
   {
     id: "bemvindo-mrn",
